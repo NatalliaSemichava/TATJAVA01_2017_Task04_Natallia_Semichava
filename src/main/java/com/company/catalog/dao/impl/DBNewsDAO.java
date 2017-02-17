@@ -11,6 +11,7 @@ import java.util.HashMap;
 public class DBNewsDAO implements NewsDAO {
     private HashMap<News, String> allNews = new HashMap<News, String>();
     private Connection connection;
+    private final String INSERT = "INSERT INTO news.records VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     private Connection getConnection() throws DAOException{
         try {
@@ -25,9 +26,7 @@ public class DBNewsDAO implements NewsDAO {
     public boolean addNewsInDB(News news) throws DAOException {
         try {
             getConnection();
-
-            String insertSQL = "INSERT INTO news.records VALUES (?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(insertSQL);
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT);
             preparedStatement.setString(1,news.getCategory());
             preparedStatement.setString(2,news.getAuthor());
             preparedStatement.setString(3,news.getDurationOrPublisher());
